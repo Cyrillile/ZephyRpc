@@ -1,4 +1,4 @@
-package com.recocozephyr.rpc.model;
+package com.recocozephyr.rpc.netty;
 
 /**
  * @AUTHOR: Cyril (https://github.com/Cyrillile)
