@@ -1,6 +1,11 @@
 package com.recocozephyr.rpc.netty;
 
+import com.recocozephyr.rpc.model.RequestInfo;
+import com.recocozephyr.rpc.model.ResponseInfo;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+
+import java.util.Map;
 
 /**
  * @AUTHOR: Cyril (https://github.com/Cyrillile)
@@ -8,4 +13,17 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * @DESCRIPTIONS: 1从channel读取请求；2构造服务端任务交给server Executor执行
  */
 public class ServerChannelHandler extends ChannelInboundHandlerAdapter{
+    private final Map<String, Object> handlerMap;
+
+    ServerChannelHandler(Map<String, Object> handlerMap) {
+        this.handlerMap = handlerMap;
+    }
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        RequestInfo requestInfo = (RequestInfo)msg;
+        ResponseInfo responseInfo = new ResponseInfo();
+        ServerServiceTask serverServiceTask = new ServerServiceTask(requestInfo,responseInfo,ctx,
+                handlerMap);
+        ServerExecutor.submit(serverServiceTask);
+    }
 }
