@@ -13,7 +13,7 @@ public class NamedThreadFactory implements ThreadFactory {
     private final String prefix;
     private final ThreadGroup threadGroup;
 
-    NamedThreadFactory(String prefix) {
+    public NamedThreadFactory(String prefix) {
         this.prefix = prefix + "-thread-";
         SecurityManager securityManager = System.getSecurityManager();
         threadGroup = (securityManager == null) ? Thread.currentThread().getThreadGroup() :

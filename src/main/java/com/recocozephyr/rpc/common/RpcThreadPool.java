@@ -5,7 +5,7 @@ import java.util.concurrent.*;
 /**
  * @AUTHOR: Cyril (https://github.com/Cyrillile)
  * @DATE: 2020/10/20 16:51
- * @DESCRIPTIONS:
+ * @DESCRIPTIONS: 返回一个ThreadPoolExecutor
  */
 public class RpcThreadPool {
     public static Executor getInstance(int threads, int queues) {
