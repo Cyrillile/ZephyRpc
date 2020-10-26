@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @AUTHOR: Cyril (https://github.com/Cyrillile)
  * @DATE: 2020/10/22 21:14
- * @DESCRIPTIONS:
+ * @DESCRIPTIONS: 创建线程
  */
 public class NamedThreadFactory implements ThreadFactory {
     private static final AtomicInteger threadIndex = new AtomicInteger(1);

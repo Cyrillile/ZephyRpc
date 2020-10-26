@@ -25,7 +25,7 @@ import java.util.logging.Level;
 /**
  * @AUTHOR: Cyril (https://github.com/Cyrillile)
  * @DATE: 2020/10/20 16:29
- * @DESCRIPTIONS:
+ * @DESCRIPTIONS: 1、设置netty服务端 2、获取要提供服务的bean 3、执行提交的任务
  */
 public class ServerExecutor implements ApplicationContextAware, InitializingBean{
     private static ThreadPoolExecutor threadPoolExecutor;
