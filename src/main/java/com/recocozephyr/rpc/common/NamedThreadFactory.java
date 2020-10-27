@@ -26,4 +26,12 @@ public class NamedThreadFactory implements ThreadFactory {
         thread.setDaemon(true);
         return thread;
     }
+
+    /**
+     * @AUTHOR: Cyril (https://github.com/Cyrillile)
+     * @DATE: 2020/10/27 18:29
+     * @DESCRIPTIONS:
+     */
+    public static enum SerilizeProtocal {
+    }
 }

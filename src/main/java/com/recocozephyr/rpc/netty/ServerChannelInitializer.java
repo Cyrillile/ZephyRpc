@@ -26,7 +26,7 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
         ChannelPipeline channelPipeline = socketChannel.pipeline();
         //添加自适应长度解码器，长度设为整数最大值，长度域为4
         channelPipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE,
-                4, 0, 4, 0));
+                0, 4, 0, 4));
         //添加编码器,设置报头长度4
         channelPipeline.addLast(new LengthFieldPrepender(4));
         //用来序列化Java对象

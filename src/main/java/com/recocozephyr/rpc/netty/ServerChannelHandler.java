@@ -15,15 +15,29 @@ import java.util.Map;
 public class ServerChannelHandler extends ChannelInboundHandlerAdapter{
     private final Map<String, Object> handlerMap;
 
-    ServerChannelHandler(Map<String, Object> handlerMap) {
+    public ServerChannelHandler(Map<String, Object> handlerMap) {
+        System.out.println("serverchannelHandler" );
         this.handlerMap = handlerMap;
     }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println(" in active");
+        super.channelActive(ctx);
+    }
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         RequestInfo requestInfo = (RequestInfo)msg;
+        System.out.println("server get request:" + requestInfo.getMethodName());
         ResponseInfo responseInfo = new ResponseInfo();
         ServerServiceTask serverServiceTask = new ServerServiceTask(requestInfo,responseInfo,ctx,
                 handlerMap);
         ServerExecutor.submit(serverServiceTask);
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        ctx.close();
     }
 }

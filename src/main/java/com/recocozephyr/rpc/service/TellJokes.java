@@ -6,5 +6,5 @@ package com.recocozephyr.rpc.service;
  * @DESCRIPTIONS:
  */
 public interface TellJokes {
-    String tell();
+    String tell(int a);
 }

@@ -2,7 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="tellJokes" class="com.recocozephyr.rpc.service.impl.TellBadJokes">
-
+    <bean id="tellJokes" class="com.recocozephyr.rpc.service.impl.TellBadJokes"></bean>
+    <bean id="zephyRpcServer" class="com.recocozephyr.rpc.netty.ServerExecutor">
+        <constructor-arg name="serverAddress" value="127.0.0.1:18888"/>
     </bean>
 </beans>

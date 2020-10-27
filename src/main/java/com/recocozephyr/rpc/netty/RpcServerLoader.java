@@ -1,6 +1,7 @@
 package com.recocozephyr.rpc.netty;
 
 import com.recocozephyr.rpc.common.RpcThreadPool;
+import com.recocozephyr.rpc.common.SerializeProtocol;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import org.omg.SendingContext.RunTime;
@@ -19,6 +20,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class RpcServerLoader {
     //singleton
     private volatile static RpcServerLoader rpcServerLoader;
+    private SerializeProtocol serializeProtocol = SerializeProtocol.JDKSERIALIZE;
 
     private final static int parallel = Runtime.getRuntime().availableProcessors() * 2;
     private EventLoopGroup eventLoopGroup = new NioEventLoopGroup(parallel);
@@ -40,6 +42,7 @@ public class RpcServerLoader {
     }
 
     public void load(String serverAddress) {
+        System.out.println("IP in load: " + serverAddress);
         String[] ipPort = serverAddress.split(":");
         if (ipPort.length == 2) {
             String ip = ipPort[0];
@@ -75,5 +78,9 @@ public class RpcServerLoader {
 
     public void unload() {
         clientChannelHandler.close();
+    }
+
+    public void setSerializeProtocol(SerializeProtocol serializeProtocol) {
+        this.serializeProtocol = serializeProtocol;
     }
 }

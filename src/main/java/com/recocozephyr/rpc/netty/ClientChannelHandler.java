@@ -6,6 +6,7 @@ import com.recocozephyr.rpc.model.ResponseInfo;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 
+import java.net.SocketAddress;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -15,7 +16,17 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ClientChannelHandler extends ChannelInboundHandlerAdapter {
     private volatile Channel channel;
+    private SocketAddress socketAddress;
     private ConcurrentHashMap<String, CallbackInfo> callback = new ConcurrentHashMap<String, CallbackInfo>();
+
+    public SocketAddress getSocketAddress() {
+        return socketAddress;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ResponseInfo responseInfo = (ResponseInfo) msg;
@@ -38,6 +49,12 @@ public class ClientChannelHandler extends ChannelInboundHandlerAdapter {
         this.channel = ctx.channel();
     }
 
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
+        this.socketAddress = this.channel.remoteAddress();
+    }
+
     public void close() {
         channel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
     }
@@ -46,6 +63,7 @@ public class ClientChannelHandler extends ChannelInboundHandlerAdapter {
         CallbackInfo callbackInfo = new CallbackInfo(requestInfo);
         callback.put(requestInfo.getSerilizerbleId(), callbackInfo);
         channel.writeAndFlush(requestInfo);
+        System.out.println("sendrequest : " + requestInfo);
         return callbackInfo;
     }
 }
