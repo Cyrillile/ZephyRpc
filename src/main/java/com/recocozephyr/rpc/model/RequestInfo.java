@@ -1,11 +1,16 @@
 package com.recocozephyr.rpc.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.io.Serializable;
+
 /**
  * @AUTHOR: Cyril (https://github.com/Cyrillile)
  * @DATE: 2020/10/20 16:27
  * @DESCRIPTIONS:
  */
-public class RequestInfo {
+public class RequestInfo implements Serializable{
     private String serilizerbleId;
     private String className;
     private String methodName;
@@ -50,5 +55,10 @@ public class RequestInfo {
 
     public void setParametersVal(Object[] parametersVal) {
         this.parametersVal = parametersVal;
+    }
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("serilizerbleId", serilizerbleId).append("className", className)
+                .append("methodName", methodName).toString();
     }
 }

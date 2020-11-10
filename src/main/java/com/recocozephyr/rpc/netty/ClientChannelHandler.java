@@ -50,6 +50,11 @@ public class ClientChannelHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        super.channelReadComplete(ctx);
+    }
+
+    @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
         this.socketAddress = this.channel.remoteAddress();
@@ -62,8 +67,8 @@ public class ClientChannelHandler extends ChannelInboundHandlerAdapter {
     public CallbackInfo sendRequest(RequestInfo requestInfo) {
         CallbackInfo callbackInfo = new CallbackInfo(requestInfo);
         callback.put(requestInfo.getSerilizerbleId(), callbackInfo);
-        channel.writeAndFlush(requestInfo);
-        System.out.println("sendrequest : " + requestInfo);
+        channel.writeAndFlush(requestInfo );
+        System.out.println("Client sendRequest : " + requestInfo.toString());
         return callbackInfo;
     }
 }

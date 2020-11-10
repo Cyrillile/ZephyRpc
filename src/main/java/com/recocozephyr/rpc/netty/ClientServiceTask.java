@@ -30,10 +30,11 @@ public class ClientServiceTask implements Runnable {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.group(eventLoopGroup)
                 .channel(NioSocketChannel.class)
-                .option(ChannelOption.SO_KEEPALIVE, true)
-                .handler(new ClientChannelInitializer());
+                .option(ChannelOption.SO_KEEPALIVE, true);
+        bootstrap.handler(new ClientChannelInitializer());
+
         ChannelFuture channelFuture = bootstrap.connect(inetSocketAddress);
-        System.out.println("boostrap connect :" + inetSocketAddress.toString());
+        System.out.println("Client boostrap connect :" + inetSocketAddress.toString());
         channelFuture.addListener(new ChannelFutureListener() {
             public void operationComplete(ChannelFuture channelFuture) throws Exception {
                 if (channelFuture.isSuccess()) {

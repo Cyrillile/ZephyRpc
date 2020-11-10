@@ -11,11 +11,11 @@ import java.awt.peer.SystemTrayPeer;
  */
 public class TellBadJokes implements TellJokes {
     public TellBadJokes() {
-        System.out.println(" to tell bad jokes");
+        System.out.println("TellBadJokes constructor");
     }
 
     public String tell(int a) {
-        System.out.println("in tell");
         return "Yes, I have reservations... but I'll eat here anyway!";
+//        return 2;
     }
 }

@@ -22,7 +22,6 @@ public class ServerServiceTask implements Runnable{
     private Map<String, Object> handlerMap;
     ServerServiceTask(RequestInfo requestInfo, ResponseInfo responseInfo, ChannelHandlerContext ctx,
                       Map<String, Object> handlerMap){
-        System.out.println("in serverServiceTask");
         this.requestInfo = requestInfo;
         this.responseInfo = responseInfo;
         this.ctx = ctx;

@@ -81,7 +81,7 @@ public class ServerExecutor implements ApplicationContextAware, InitializingBean
         try {
             TellJokes tellJokes = (TellJokes) applicationContext.getBean(Class.forName("" +
                     "com.recocozephyr.rpc.service.impl.TellBadJokes"));
-            handlerMap.put("TellJokes", tellJokes);
+            handlerMap.put("com.recocozephyr.rpc.service.TellJokes", tellJokes);
         } catch (ClassNotFoundException e) {
             java.util.logging.Logger.getLogger(ServerExecutor.class.getName()).log(Level.SEVERE, null, e);
         }

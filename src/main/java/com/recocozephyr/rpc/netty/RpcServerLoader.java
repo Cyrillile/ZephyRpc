@@ -42,7 +42,6 @@ public class RpcServerLoader {
     }
 
     public void load(String serverAddress) {
-        System.out.println("IP in load: " + serverAddress);
         String[] ipPort = serverAddress.split(":");
         if (ipPort.length == 2) {
             String ip = ipPort[0];

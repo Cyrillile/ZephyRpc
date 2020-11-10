@@ -12,5 +12,7 @@ public class ZephyRpcServerStarter {
     public static void main(String[] args) {
         ApplicationContext  applicationContext = new ClassPathXmlApplicationContext(
                 "spring-config.xml");
+
+//        System.out.println(" Starter" + applicationContext.toString());
     }
 }

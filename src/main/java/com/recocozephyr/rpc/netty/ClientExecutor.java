@@ -19,10 +19,11 @@ public class ClientExecutor {
     }
 
     public static <T> T execute(Class<T> rpcServiceInterface) {
-        return (T) Proxy.newProxyInstance(
+        T instance =  (T) Proxy.newProxyInstance(
                 rpcServiceInterface.getClassLoader(),
                 new Class<?>[]{rpcServiceInterface},
                 new ProxyService<T>(rpcServiceInterface)
         );
+        return instance;
     }
 }

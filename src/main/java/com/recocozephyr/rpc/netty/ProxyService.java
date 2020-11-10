@@ -26,7 +26,6 @@ public class ProxyService<T> implements InvocationHandler {
         requestInfo.setMethodName(method.getName());
         requestInfo.setParametersType(method.getParameterTypes());
         requestInfo.setParametersVal(args);
-
         ClientChannelHandler clientChannelHandler = RpcServerLoader.getInstance().getClientChannelHandler();
         CallbackInfo callbackInfo = clientChannelHandler.sendRequest(requestInfo);
         return callbackInfo.start();
