@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @DESCRIPTIONS:
  */
 public enum SerializeProtocol {
-    JDKSERIALIZE("jdknative");
+    JDKSERIALIZE("jdknative"), KRYOSERIALIZE("kryo"), HESSIANSERIALIZE("hessian");
     private String serializeProtocol;
 
     SerializeProtocol(String serializeProtocol) {
