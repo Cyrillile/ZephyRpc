@@ -1,4 +1,4 @@
-package com.recocozephyr.rpc.serilize;
+package com.recocozephyr.rpc.serialize;
 
 import com.recocozephyr.rpc.common.SerializeProtocol;
 import io.netty.channel.ChannelPipeline;

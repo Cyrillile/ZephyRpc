@@ -13,11 +13,6 @@ import java.util.UUID;
  * @DESCRIPTIONS:
  */
 public class ProxyService<T> implements InvocationHandler {
-    private Class<T> tClass;
-
-    public ProxyService(Class<T> tClass) {
-        this.tClass = tClass;
-    }
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         RequestInfo requestInfo = new RequestInfo();
@@ -26,6 +21,7 @@ public class ProxyService<T> implements InvocationHandler {
         requestInfo.setMethodName(method.getName());
         requestInfo.setParametersType(method.getParameterTypes());
         requestInfo.setParametersVal(args);
+
         ClientChannelHandler clientChannelHandler = RpcServerLoader.getInstance().getClientChannelHandler();
         CallbackInfo callbackInfo = clientChannelHandler.sendRequest(requestInfo);
         return callbackInfo.start();

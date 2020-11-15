@@ -1,5 +1,8 @@
 package com.recocozephyr.rpc.netty;
 
+import com.google.common.reflect.Reflection;
+import com.recocozephyr.rpc.common.SerializeProtocol;
+
 import java.lang.reflect.Proxy;
 
 /**
@@ -10,20 +13,18 @@ import java.lang.reflect.Proxy;
 public class ClientExecutor {
     private RpcServerLoader rpcServerLoader = RpcServerLoader.getInstance();
 
-    public ClientExecutor(String serverAddress) {
-        rpcServerLoader.load(serverAddress);
+    public ClientExecutor() {
     }
+    public void setClientExecutor(String serverAddress, SerializeProtocol serializeProtocol) {
+        rpcServerLoader.load(serverAddress, serializeProtocol);
+    }
+
 
     public void stop() {
         rpcServerLoader.unload();
     }
 
     public static <T> T execute(Class<T> rpcServiceInterface) {
-        T instance =  (T) Proxy.newProxyInstance(
-                rpcServiceInterface.getClassLoader(),
-                new Class<?>[]{rpcServiceInterface},
-                new ProxyService<T>(rpcServiceInterface)
-        );
-        return instance;
+        return (T) Reflection.newProxy(rpcServiceInterface, new ProxyService<T>());
     }
 }

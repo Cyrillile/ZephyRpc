@@ -30,7 +30,7 @@ public class CallServiceTask implements Runnable {
         try {
             signal.await();
             TellJokes tellJokes = clientExecutor.execute(TellJokes.class);
-            System.out.println("Get jokes:" + tellJokes.tell(2));
+//            System.out.println("Get jokes:" + tellJokes.tell(2));
             finish.countDown();
         } catch (InterruptedException e) {
             Logger.getLogger(CallServiceTask.class.getName()).log(Level.SEVERE, null, e);

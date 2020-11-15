@@ -25,7 +25,7 @@ public class CallbackInfo {
             lock.lock();
             signal.await(10 * 1000, TimeUnit.MILLISECONDS);
             if (this.responseInfo != null) {
-                System.out.println("callback : " + this.responseInfo.getResult());
+//                System.out.println("callback : " + this.responseInfo.getResult());
                 return responseInfo.getResult();
             } else {
                 return null;

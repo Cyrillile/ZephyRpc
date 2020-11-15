@@ -1,4 +1,4 @@
-package com.recocozephyr.rpc.serilize;
+package com.recocozephyr.rpc.serialize;
 
 import java.io.IOException;
 import java.io.InputStream;

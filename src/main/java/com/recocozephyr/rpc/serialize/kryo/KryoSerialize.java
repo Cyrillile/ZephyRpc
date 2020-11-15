@@ -1,10 +1,10 @@
-package com.recocozephyr.rpc.serilize.kryo;
+package com.recocozephyr.rpc.serialize.kryo;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.pool.KryoPool;
-import com.recocozephyr.rpc.serilize.Serialize;
+import com.recocozephyr.rpc.serialize.Serialize;
 
 import java.io.IOException;
 import java.io.InputStream;

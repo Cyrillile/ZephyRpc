@@ -10,9 +10,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class ZephyRpcServerStarter {
     public static void main(String[] args) {
-        ApplicationContext  applicationContext = new ClassPathXmlApplicationContext(
-                "spring-config.xml");
+//        ApplicationContext  applicationContext = new ClassPathXmlApplicationContext(
+//                "spring-config.xml");
+//        new ClassPathXmlApplicationContext("jdknative-config.xml");
+//        new ClassPathXmlApplicationContext("kryo-config.xml");
+        new ClassPathXmlApplicationContext("hessian-config.xml");
 
-//        System.out.println(" Starter" + applicationContext.toString());
     }
 }

@@ -68,7 +68,7 @@ public class ClientChannelHandler extends ChannelInboundHandlerAdapter {
         CallbackInfo callbackInfo = new CallbackInfo(requestInfo);
         callback.put(requestInfo.getSerilizerbleId(), callbackInfo);
         channel.writeAndFlush(requestInfo );
-        System.out.println("Client sendRequest : " + requestInfo.toString());
+//        System.out.println("Client sendRequest : " + requestInfo.toString());
         return callbackInfo;
     }
 }

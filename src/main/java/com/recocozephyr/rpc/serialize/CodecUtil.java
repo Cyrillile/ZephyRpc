@@ -1,4 +1,4 @@
-package com.recocozephyr.rpc.serilize;
+package com.recocozephyr.rpc.serialize;
 
 import io.netty.buffer.ByteBuf;
 
@@ -10,7 +10,7 @@ import java.io.IOException;
  * @DESCRIPTIONS: 信息编码、解码接口
  */
 public interface CodecUtil {
-    public final static int HeadLenght = 4;
+    public final static int HEAD_LENGTH = 4;
     public void encode(final ByteBuf out, final Object msg) throws IOException;
     public Object decode(byte[] body) throws IOException;
 }

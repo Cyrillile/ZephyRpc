@@ -1,7 +1,7 @@
-package com.recocozephyr.rpc.serilize.kryo;
+package com.recocozephyr.rpc.serialize.kryo;
 
-import com.recocozephyr.rpc.serilize.CodecUtil;
-import com.recocozephyr.rpc.serilize.Decoder;
+import com.recocozephyr.rpc.serialize.CodecUtil;
+import com.recocozephyr.rpc.serialize.Decoder;
 
 /**
  * @AUTHOR: Cyril (https://github.com/Cyrillile)

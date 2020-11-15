@@ -30,7 +30,7 @@ public class ServerChannelHandler extends ChannelInboundHandlerAdapter{
         ResponseInfo responseInfo = new ResponseInfo();
         ServerServiceTask serverServiceTask = new ServerServiceTask(requestInfo,responseInfo,ctx,
                 handlerMap);
-        ServerExecutor.submit(serverServiceTask);
+        ServerExecutor.submit(serverServiceTask, ctx, requestInfo, responseInfo);
     }
 
     @Override

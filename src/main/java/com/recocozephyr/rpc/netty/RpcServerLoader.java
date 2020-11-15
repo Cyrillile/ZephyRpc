@@ -1,16 +1,21 @@
 package com.recocozephyr.rpc.netty;
 
+import com.google.common.util.concurrent.*;
 import com.recocozephyr.rpc.common.RpcThreadPool;
 import com.recocozephyr.rpc.common.SerializeProtocol;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
+import jdk.nashorn.internal.runtime.linker.Bootstrap;
 import org.omg.SendingContext.RunTime;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @AUTHOR: Cyril (https://github.com/Cyrillile)
@@ -24,11 +29,16 @@ public class RpcServerLoader {
 
     private final static int parallel = Runtime.getRuntime().availableProcessors() * 2;
     private EventLoopGroup eventLoopGroup = new NioEventLoopGroup(parallel);
-    private static ThreadPoolExecutor executor = (ThreadPoolExecutor) RpcThreadPool.getInstance(16, -1);
+    private static ListeningExecutorService listeningExecutorService = MoreExecutors.listeningDecorator(
+            (ThreadPoolExecutor) RpcThreadPool.getInstance(16, -1));
     private ClientChannelHandler clientChannelHandler;
 
     private Lock lock = new ReentrantLock();
-    private Condition signal = lock.newCondition();
+    private Condition connectStatus = lock.newCondition();
+    private Condition handlerStatus = lock.newCondition();
+
+    private RpcServerLoader(){
+    }
 
     public static RpcServerLoader getInstance() {
         if (rpcServerLoader == null) {
@@ -41,23 +51,47 @@ public class RpcServerLoader {
         return rpcServerLoader;
     }
 
-    public void load(String serverAddress) {
+    public void load(String serverAddress, SerializeProtocol serializeProtocol) {
         String[] ipPort = serverAddress.split(":");
         if (ipPort.length == 2) {
             String ip = ipPort[0];
             int port = Integer.parseInt(ipPort[1]);
             final InetSocketAddress inetSocketAddress = new InetSocketAddress(ip, port);
-            executor.submit(new ClientServiceTask(eventLoopGroup, inetSocketAddress,
-                    this));
+            ListenableFuture<Boolean> listenableFuture = listeningExecutorService.submit(
+                    new ClientServiceTask(eventLoopGroup, inetSocketAddress,
+                    serializeProtocol));
+            Futures.addCallback(listenableFuture, new FutureCallback<Boolean>() {
+                public void onSuccess(Boolean aBoolean) {
+                    try {
+                        lock.lock();
+                        if (clientChannelHandler == null) {
+                            handlerStatus.await();
+                        }
+
+                        //Futures异步回调，唤醒所有rpc等待线程
+                        if (aBoolean == Boolean.TRUE && clientChannelHandler != null) {
+                            connectStatus.signalAll();
+                        }
+                    } catch (InterruptedException e) {
+                        Logger.getLogger(RpcServerLoader.class.getName()).log(Level.SEVERE, null, e);
+                    }finally {
+                        lock.unlock();
+                    }
+                }
+
+                public void onFailure(Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }, listeningExecutorService);
         }
     }
 
     public ClientChannelHandler getClientChannelHandler() throws InterruptedException {
         try {
             lock.lock();
-            //wait
+            //netty服务端连接完成前wait
             if (clientChannelHandler == null) {
-                signal.await();
+                connectStatus.await();
             }
             return clientChannelHandler;
         }finally {
@@ -69,7 +103,7 @@ public class RpcServerLoader {
         try {
             lock.lock();
             this.clientChannelHandler = clientChannelHandler;
-            signal.signalAll();
+            connectStatus.signalAll();
         }finally {
             lock.unlock();
         }
@@ -77,6 +111,8 @@ public class RpcServerLoader {
 
     public void unload() {
         clientChannelHandler.close();
+        listeningExecutorService.shutdown();
+        eventLoopGroup.shutdownGracefully();
     }
 
     public void setSerializeProtocol(SerializeProtocol serializeProtocol) {

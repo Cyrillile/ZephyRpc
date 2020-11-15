@@ -1,12 +1,10 @@
-package com.recocozephyr.rpc.serilize.kryo;
+package com.recocozephyr.rpc.serialize.kryo;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.pool.KryoFactory;
 import com.esotericsoftware.kryo.pool.KryoPool;
 import com.recocozephyr.rpc.model.RequestInfo;
 import com.recocozephyr.rpc.model.ResponseInfo;
-import com.recocozephyr.rpc.serilize.CodecUtil;
-import com.recocozephyr.rpc.serilize.Decoder;
 import org.objenesis.strategy.StdInstantiatorStrategy;
 
 /**
@@ -20,7 +18,7 @@ public class KryoPoolFactory {
     private KryoFactory kryoFactory = new KryoFactory() {
         public Kryo create() {
             Kryo kryo = new Kryo();
-            //
+            //不会存在循环引用，可以关闭提高性能
             kryo.setReferences(false);
             //将class注册以提高序列化效率
             kryo.register(RequestInfo.class);

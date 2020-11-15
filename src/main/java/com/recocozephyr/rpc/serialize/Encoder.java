@@ -1,4 +1,4 @@
-package com.recocozephyr.rpc.serilize;
+package com.recocozephyr.rpc.serialize;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
